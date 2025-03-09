@@ -7,21 +7,44 @@ exports.createUser = async (req, res) => {
 
         // Validação de entrada
         if (!email || !password) {
-            return res.json({ message: 'Email e senha são obrigatórios' });
+            return res.status(400).json({ message: 'Email e senha são obrigatórios' });
         }
 
         // Verifica se o email já existe
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.json({ message: 'Email já cadastrado' });
+            return res.status(400).json({ message: 'Email já cadastrado' });
         }
 
         // Cria e salva o novo usuário
         const newUser = new User({ email, password });
         await newUser.save();
-        res.json(newUser);
+        res.status(201).json(newUser);
     } catch (error) {
-        res.json({ message: error.message });
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Obter todos os usuários
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Obter um usuário por ID
+exports.getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
