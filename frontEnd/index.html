@@ -19,5 +19,24 @@
 
     <h2>Lista de Usuários</h2>
     <ul id="userList"></ul>
+    <script>
+        
+        // Função para carregar e exibir a lista de usuários
+        async function loadUsers() {
+            const response = await fetch('http://localhost:3000/users');
+            const users = await response.json();
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = `Email: ${user.email} - Senha: ${user.password}`;
+                userList.appendChild(li);
+            });
+        }
+
+       
+        // Carregar a lista de usuários ao carregar a página
+        loadUsers();
+    </script>
 </body>
 </html>
