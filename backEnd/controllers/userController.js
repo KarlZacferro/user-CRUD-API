@@ -48,3 +48,36 @@ exports.getUserById = async (req, res) => {
     }
 };
 
+// Atualizar um usuário
+exports.updateUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validação de entrada
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+        }
+
+        // Atualiza o usuário
+        const user = await User.findByIdAndUpdate(req.params.id, { email, password }, { new: true });
+        if (!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Excluir um usuário
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+        res.status(200).json({ message: 'Usuário excluído com sucesso' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
