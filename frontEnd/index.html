@@ -33,9 +33,24 @@
                 userList.appendChild(li);
             });
         }
+         // Função para criar um novo usuário
+        document.getElementById('userForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-       
-      
+            const response = await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                loadUsers();
+            }
+        });
         loadUsers();
     </script>
 </body>
