@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Conectar ao MongoDB
-mongoose.connect('mongodb+srv://Karl:<db_password>@cluster0.tajs6.mongodb.net/', {
+mongoose.connect('mongodb+srv://Karl:kbbtyh2532@cluster0.tajs6.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('Conectado ao MongoDB'))
